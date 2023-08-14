@@ -1,32 +1,24 @@
-import { IsEmpty, IsNotEmpty, IsNumber, IsString, IsUUID, MinLength } from "class-validator";
+import { IsNotEmpty, IsNumber, IsString, IsUUID, MinLength } from 'class-validator';
 
-export class CreateProductDto{
-    @IsEmpty()
-    id: string;
+class BaseProductDto {
     @IsNotEmpty()
     @IsString()
     @MinLength(3)
     name: string;
+
     @IsNumber()
     @IsNotEmpty()
     weight: number;
+
     @IsNumber()
-    @IsNotEmpty() 
+    @IsNotEmpty()
     price: number;
 }
 
-export class ProductDto{
+export class ProductEntityDto extends BaseProductDto {
     @IsUUID()
     @IsNotEmpty()
     id: string;
-    @IsNotEmpty()
-    @IsString()
-    @MinLength(3)
-    name: string;
-    @IsNumber()
-    @IsNotEmpty()
-    weight: number;
-    @IsNumber()
-    @IsNotEmpty() 
-    price: number;
 }
+
+export class CreateProductDto extends BaseProductDto {}

@@ -1,7 +1,7 @@
-import { Injectable } from "@nestjs/common";
-import { Product } from "src/entities/product.entity";
-import { DataSource, Repository } from "typeorm";
-import { CreateProductDto, ProductDto } from "./productDto/product.dto";
+import { Injectable } from '@nestjs/common';
+import { Product } from 'src/entities/product.entity';
+import { DataSource, Repository } from 'typeorm';
+import { CreateProductDto } from './productDto/product.dto';
 import { v4 as uuidv4 } from 'uuid';
 
 
@@ -23,12 +23,14 @@ export class ProductRepository extends Repository<Product>{
             totalPages,
         };
     }
-    async createProduct(productData: CreateProductDto): Promise<ProductDto> {
-        const newProduct: any = {
-            id: uuidv4(),
-            ...productData,
-        };
-        console.log(newProduct);
+    async createProduct(productData: CreateProductDto): Promise<Product> {
+        const newProduct = new Product();
+
+        newProduct.id = uuidv4();
+        newProduct.name = productData.name;
+        newProduct.weight = productData.weight;
+        newProduct.price = productData.price;
+
         return newProduct;
     }
 }

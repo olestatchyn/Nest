@@ -21,7 +21,6 @@ export class ErrorMiddleware implements NestMiddleware {
         console.error(`Error Message: ${errorMessage}`);
       }
     });
-
     next();
   }
 }

@@ -1,7 +1,6 @@
-import { Body, Controller, Get, Param, Post, Patch, Delete, Query} from "@nestjs/common";
-// import { Product } from "src/entities/product.entity";
-import { ProductRepository } from "./products.repository";
-import {CreateProductDto, ProductDto } from "./productDto/product.dto";
+import { Body, Controller, Get, Param, Post, Patch, Delete, Query} from '@nestjs/common';
+import { ProductRepository } from './products.repository';
+import {CreateProductDto, ProductEntityDto } from './productDto/product.dto';
 
 @Controller('products')
 export class ProductsController {
@@ -12,25 +11,20 @@ export class ProductsController {
         return this.productRepository.getPaginatedItems(page, limit);
     }
     @Get()
-    async getProducts(): Promise<ProductDto[]> {
+    async getProducts(): Promise<ProductEntityDto[]> {
         return this.productRepository.find();
     }
     @Get(':id')
-    async getProductById(@Param('id') id: string): Promise<ProductDto> {
+    async getProductById(@Param('id') id: string): Promise<ProductEntityDto> {
         return this.productRepository.findOneBy({ id });
     }
     @Post()
-    async createProduct(@Body() productData: CreateProductDto): Promise<ProductDto> {
+    async createProduct(@Body() productData: CreateProductDto): Promise<ProductEntityDto> {
         const product = await this.productRepository.createProduct(productData);
-        console.log(product);
         return this.productRepository.save(product);
     }
-    // @Post()
-    // async create(@Body() productData: Partial<Product>): Promise<Product> {
-    //     return this.productRepository.createProduct(productData);
-    // }
     @Patch(':id')
-    async updateProduct(@Param('id') id: string, @Body() product: Partial<ProductDto>): Promise<ProductDto> {
+    async updateProduct(@Param('id') id: string, @Body() product: Partial<ProductEntityDto>): Promise<ProductEntityDto> {
         await this.productRepository.update(id, product);
         return this.productRepository.findOneBy({ id });
     }
